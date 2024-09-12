@@ -13,50 +13,51 @@ public class Weapon : MonoBehaviour
     [SerializeField] private bool allowReset = true;
     [SerializeField] private float shootingDelay = 0.3f;
     [SerializeField] private bool automaticFire = false;
+    [SerializeField] private float spreadIntensity = 0.05f;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private float bulletSpeed = 30.0f;
     [SerializeField] private float lifeTime = 3.0f;
 
-    private PlayerInputActions playerInputActions;
-    private Coroutine continuousFireCoroutine;
-    private float buttonHoldTime = 0.0f;
-    private float holdThreshold = 0.3f;
+    private PlayerInputActions _playerInputActions;
+    private Coroutine _continuousFireCoroutine;
+    private float _buttonHoldTime = 0.0f;
+    private float _holdThreshold = 0.3f;
 
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
+        _playerInputActions = new PlayerInputActions();
 
         readyToShoot = true;
     }
 
     private void Start()
     {
-        playerInputActions.Player.Shoot.performed += StartShooting;
-        playerInputActions.Player.Shoot.canceled += StopShooting;
-        playerInputActions.Player.Enable();
+        _playerInputActions.Player.Shoot.performed += StartShooting;
+        _playerInputActions.Player.Shoot.canceled += StopShooting;
+        _playerInputActions.Player.Enable();
     }
 
     private void Update()
     {
         if (isShooting)
         {
-            buttonHoldTime += Time.deltaTime;
+            _buttonHoldTime += Time.deltaTime;
 
-            if (buttonHoldTime > holdThreshold && !automaticFire)
+            if (_buttonHoldTime > _holdThreshold && !automaticFire)
             {
                 automaticFire = true;
-                if (continuousFireCoroutine == null)
+                if (_continuousFireCoroutine == null)
                 {
-                    continuousFireCoroutine = StartCoroutine(ContinuousFire());
+                    _continuousFireCoroutine = StartCoroutine(ContinuousFire());
                 }
             }
         }
     }
     private void StartShooting(InputAction.CallbackContext context)
     {
-        buttonHoldTime = 0.0f;
+        _buttonHoldTime = 0.0f;
         isShooting = true;
 
         if (!automaticFire && readyToShoot)
@@ -69,13 +70,13 @@ public class Weapon : MonoBehaviour
     {
         isShooting = false;
         automaticFire = false;
-        buttonHoldTime = 0.0f;
+        _buttonHoldTime = 0.0f;
         readyToShoot = true;
 
-        if (continuousFireCoroutine != null)
+        if (_continuousFireCoroutine != null)
         {
-            StopCoroutine(continuousFireCoroutine);
-            continuousFireCoroutine = null;
+            StopCoroutine(_continuousFireCoroutine);
+            _continuousFireCoroutine = null;
         }
     }
 
@@ -98,9 +99,36 @@ public class Weapon : MonoBehaviour
 
     private void FireWeapon()
     {
+
+        Vector3 shootingDirection = CalcDirectionAndSpread().normalized;
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody>().AddForce(bulletSpawn.forward.normalized * bulletSpeed, ForceMode.Impulse);
+        bullet.transform.forward = shootingDirection;
+        bullet.GetComponent<Rigidbody>().AddForce(shootingDirection * bulletSpeed, ForceMode.Impulse);
         StartCoroutine(DestroyBullet(bullet, lifeTime));
+    }
+
+    private Vector3 CalcDirectionAndSpread()
+    {
+        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+        Vector3 targetPoint;
+        if (Physics.Raycast(ray, out hit))
+        {
+            targetPoint = hit.point;
+        }
+        else
+        {
+            targetPoint = ray.GetPoint(100);
+        }
+
+        Vector3 shootingDirection = targetPoint - bulletSpawn.position;
+        float xSpread = UnityEngine.Random.Range(-spreadIntensity, spreadIntensity);
+        float ySpread = UnityEngine.Random.Range(-spreadIntensity, spreadIntensity);
+
+        shootingDirection.x += xSpread;
+        shootingDirection.y += ySpread;
+
+        return shootingDirection;
     }
 
     private IEnumerator DestroyBullet(GameObject bullet, float lifeTime)
