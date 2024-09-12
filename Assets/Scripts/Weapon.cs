@@ -12,21 +12,12 @@ public class Weapon : MonoBehaviour
     [SerializeField] private bool readyToShoot;
     [SerializeField] private bool allowReset = true;
     [SerializeField] private float shootingDelay = 0.3f;
-
     [SerializeField] private bool automaticFire = false;
-    [SerializeField] private int bulletsPerBurst = 3;
-    [SerializeField] private int currentBurst;
-
-    [SerializeField] private float spreadIntensity;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private float bulletSpeed = 30.0f;
     [SerializeField] private float lifeTime = 3.0f;
-
-    [SerializeField] private enum ShootingMode { Single, Burst };
-
-    [SerializeField] private ShootingMode shootingMode;
 
     private PlayerInputActions playerInputActions;
     private Coroutine continuousFireCoroutine;
