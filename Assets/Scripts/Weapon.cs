@@ -10,7 +10,6 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] private bool isShooting;
     [SerializeField] private bool readyToShoot;
-    [SerializeField] private bool allowReset = true;
     [SerializeField] private float shootingDelay = 0.3f;
     [SerializeField] private bool automaticFire = false;
     [SerializeField] private float spreadIntensity = 0.05f;
