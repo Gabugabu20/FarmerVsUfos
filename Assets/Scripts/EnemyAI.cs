@@ -34,7 +34,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        GameObject go = GameObject.FindGameObjectWithTag("Player");
+        GameObject go = GameObject.FindGameObjectWithTag("Cow");
         if (go != null)
         {
             target = go.transform;
