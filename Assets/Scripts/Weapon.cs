@@ -19,6 +19,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float bulletSpeed = 30.0f;
     [SerializeField] private float lifeTime = 3.0f;
 
+    [SerializeField] private AudioSource shootAudioSource;
+
     private PlayerInputActions _playerInputActions;
     private Coroutine _continuousFireCoroutine;
     private float _buttonHoldTime = 0.0f;
@@ -98,6 +100,10 @@ public class Weapon : MonoBehaviour
 
     private void FireWeapon()
     {
+        if (shootAudioSource != null)
+        {
+            shootAudioSource.Play();
+        }
 
         Vector3 shootingDirection = CalcDirectionAndSpread().normalized;
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);

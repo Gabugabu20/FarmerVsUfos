@@ -19,11 +19,17 @@ public class EnemyAI : MonoBehaviour
     [SerializeField]
     private float maxDistance = 2f;
 
-    private Transform myTransform;
+    private Transform myTransform; 
+    private Vector3 lastPosition;
+    private AudioSource moveAudioSource;
 
     void Awake()
     {
         myTransform = transform;
+        lastPosition = myTransform.position;
+        moveAudioSource = GetComponent<AudioSource>();
+        moveAudioSource.Play();
+        moveAudioSource.Pause();
     }
 
     void Start()
@@ -47,10 +53,29 @@ public class EnemyAI : MonoBehaviour
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             myTransform.rotation = Quaternion.Slerp(myTransform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
 
+            float distanceToTarget = Vector3.Distance(new Vector3(target.position.x, 0, target.position.z), new Vector3(myTransform.position.x, 0, myTransform.position.z));
+
             if (Vector3.Distance(new Vector3(target.position.x, 0, target.position.z), new Vector3(myTransform.position.x, 0, myTransform.position.z)) > maxDistance)
             {
                 myTransform.position = Vector3.MoveTowards(myTransform.position, targetPosition, moveSpeed * Time.deltaTime);
             }
-        }
+
+            if (myTransform.position != lastPosition)
+            {
+                if (!moveAudioSource.isPlaying)
+                {
+                    moveAudioSource.UnPause();
+                }
+            }
+            else
+            {
+                if (moveAudioSource.isPlaying)
+                {
+                    moveAudioSource.Pause();
+                }
+            }
+
+            lastPosition = myTransform.position;
+        }   
     }
 }
