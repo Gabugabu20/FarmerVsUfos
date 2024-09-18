@@ -23,10 +23,10 @@ public class EnemyAI : MonoBehaviour
     private float levitationSpeed = 2f;
 
     [SerializeField]
-    private float cowStopHeight = 1f;
+    private float cowStopDistance = 0.5f;
 
     [SerializeField]
-    private float rotationSpeedDuringLevitation = 10f;
+    private float rotationSpeedDuringLevitation = 30f;
 
     private Transform myTransform;
     private Transform currentCow;
@@ -46,11 +46,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        GameObject go = GameObject.FindGameObjectWithTag("Cow");
-        if (go != null)
-        {
-            target = go.transform;
-        }
+        FindNextCow();
     }
 
     void Update()
@@ -81,10 +77,7 @@ public class EnemyAI : MonoBehaviour
                 else
                 {
                     myTransform.position = targetPosition;
-                    if (!isCowLevitating)
-                    {
-                        CheckForCowBelow();
-                    }
+                    CheckForCowBelow();
                 }
             }
 
@@ -137,11 +130,14 @@ public class EnemyAI : MonoBehaviour
 
     private void LevitateCow()
     {
-        currentCow.position = Vector3.MoveTowards(currentCow.position, myTransform.position - new Vector3(0, cowStopHeight, 0), levitationSpeed * Time.deltaTime);
+        Vector3 cowTargetPosition = myTransform.position - new Vector3(0, cowStopDistance, 0);
 
-        if (Vector3.Distance(currentCow.position, myTransform.position - new Vector3(0, cowStopHeight, 0)) < 0.1f)
+        currentCow.position = Vector3.MoveTowards(currentCow.position, cowTargetPosition, levitationSpeed * Time.deltaTime);
+
+        float distanceToUFO = Vector3.Distance(currentCow.position, cowTargetPosition);
+        if (distanceToUFO <= 0.1f)
         {
-            StartCoroutine(DropCow());
+            AbsorbCow();
         }
     }
 
@@ -158,6 +154,19 @@ public class EnemyAI : MonoBehaviour
     private void SetRandomCowRotation()
     {
         targetRotation = Random.rotation;
+    }
+
+    private void AbsorbCow()
+    {
+        //TODO Particles
+
+        Destroy(currentCow.gameObject);
+
+        isCowLevitating = false;
+        currentCow = null;
+        target = null;
+
+        FindNextCow();
     }
 
     private IEnumerator DropCow()
@@ -182,19 +191,14 @@ public class EnemyAI : MonoBehaviour
         GameObject[] cows = GameObject.FindGameObjectsWithTag("Cow");
         if (cows.Length > 0)
         {
-            foreach (GameObject cow in cows)
+            do
             {
-                if (cow != null && cow != currentCow)
-                {
-                    target = cow.transform;
-                    break;
-                }
-            }
+                target = cows[Random.Range(0, cows.Length)].transform;
+            } while (target == null && cows.Length > 0);
         }
         else
         {
             target = null;
         }
     }
-
 }
