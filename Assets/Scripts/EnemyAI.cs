@@ -207,6 +207,7 @@ public class EnemyAI : MonoBehaviour
     private IEnumerator DropCow()
     {
         isCowLevitating = false;
+        cow.StopMooSound();
 
         yield return new WaitForSeconds(1f);
 
@@ -217,6 +218,8 @@ public class EnemyAI : MonoBehaviour
         }
 
         currentCow = null;
+        cow = null;
+        target = null;
 
         FindNextCow();
     }
