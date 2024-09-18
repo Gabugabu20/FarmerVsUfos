@@ -69,6 +69,10 @@ public class EnemyAI : MonoBehaviour
             LevitateCow();
             RotateCowRandomly();
         }
+        if(target == null)
+        {
+            FindNextCow();
+        }
     }
 
     private void HandleMovement()

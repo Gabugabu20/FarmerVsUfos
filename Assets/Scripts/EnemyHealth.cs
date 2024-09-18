@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private Slider healthBar;
 
     private EnemyAI enemyAI;
+
+    public event Action OnDestroyed;
 
     private void Start()
     {
@@ -42,6 +45,11 @@ public class EnemyHealth : MonoBehaviour
         if (enemyAI != null)
         {
             enemyAI.DropCow();
+        }
+
+        if (OnDestroyed != null)
+        {
+            OnDestroyed.Invoke();
         }
 
         // TODO: VFX
