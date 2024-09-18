@@ -173,6 +173,10 @@ public class EnemyAI : MonoBehaviour
 
     private void RotateCowRandomly()
     {
+        if(currentCow == null)
+        {
+            return;
+        }
         currentCow.rotation = Quaternion.RotateTowards(currentCow.rotation, targetRotation, rotationSpeedDuringLevitation * Time.deltaTime);
 
         if (Quaternion.Angle(currentCow.rotation, targetRotation) < 1f)
@@ -190,32 +194,76 @@ public class EnemyAI : MonoBehaviour
     {
         //TODO Particles
 
-        cow.StopMooSound();
+        if (cow != null)
+        {
+            cow.IsBeingTargeted = false;
+        }
 
-        Destroy(currentCow.gameObject);
+        if (cow != null)
+        {
+            cow.StopMooSound();
+        }
+
+        if (cow != null)
+        {
+            CowManager.Instance.UnregisterCow(cow);
+        }
+
+        if (currentCow != null)
+        {
+            Destroy(currentCow.gameObject);
+        }
 
         isCowLevitating = false;
         currentCow = null;
         cow = null;
         target = null;
 
-        levitationAudioSource.Pause();
+        if (levitationAudioSource != null)
+        {
+            levitationAudioSource.Pause();
+        }
 
         FindNextCow();
     }
 
     private void FindNextCow()
     {
-        GameObject[] cows = GameObject.FindGameObjectsWithTag("Cow");
-        if (cows.Length > 0)
+        List<Cow> cows = CowManager.Instance.GetCows();
+        Debug.Log("Total Cows: " + cows.Count);
+
+        if (cows.Count > 0)
         {
+            Cow selectedCow = null;
             do
             {
-                target = cows[Random.Range(0, cows.Length)].transform;
-            } while (target == null && cows.Length > 0);
+                int randomIndex = Random.Range(0, cows.Count);
+                Cow randomCow = cows[randomIndex];
+
+                if (!randomCow.IsBeingTargeted)
+                {
+                    selectedCow = randomCow;
+                    selectedCow.IsBeingTargeted = true;
+                    break;
+                }
+
+                cows.RemoveAt(randomIndex);
+            } while (cows.Count > 0);
+
+            if (selectedCow != null)
+            {
+                target = selectedCow.transform;
+                Debug.Log("New Target Cow: " + target.name);
+            }
+            else
+            {
+                Debug.Log("No untargeted cows available.");
+                target = null;
+            }
         }
         else
         {
+            Debug.Log("No cows available.");
             target = null;
         }
     }
@@ -228,6 +276,7 @@ public class EnemyAI : MonoBehaviour
 
             if (cow != null)
             {
+                cow.IsBeingTargeted = false;
                 cow.StopMooSound();
             }
 
