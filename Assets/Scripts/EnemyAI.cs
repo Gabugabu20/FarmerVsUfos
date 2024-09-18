@@ -30,6 +30,7 @@ public class EnemyAI : MonoBehaviour
 
     private Transform myTransform;
     private Transform currentCow;
+    private Cow cow;
     private bool isCowLevitating = false;
     private Vector3 lastPosition;
     private Quaternion targetRotation;
@@ -39,9 +40,6 @@ public class EnemyAI : MonoBehaviour
     private AudioSource moveAudioSource;
     [SerializeField]
     private AudioSource levitationAudioSource;
-
-    [SerializeField]
-    private AudioClip levitationSoundClip;
 
     void Awake()
     {
@@ -94,7 +92,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        HandleAudio();
+        HandleMoveAudio();
 
         lastPosition = myTransform.position;
     }
@@ -110,7 +108,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void HandleAudio()
+    private void HandleMoveAudio()
     {
         if (myTransform.position != lastPosition)
         {
@@ -148,9 +146,16 @@ public class EnemyAI : MonoBehaviour
                     cowRigidbody.isKinematic = true;
                 }
 
-                levitationAudioSource.UnPause();
+                HandleLevitationAudio();
             }
         }
+    }
+
+    private void HandleLevitationAudio()
+    {
+        levitationAudioSource.UnPause();
+        cow = currentCow.GetComponent<Cow>();
+        cow.StartMooSound();
     }
 
     private void LevitateCow()
@@ -185,10 +190,13 @@ public class EnemyAI : MonoBehaviour
     {
         //TODO Particles
 
+        cow.StopMooSound();
+
         Destroy(currentCow.gameObject);
 
         isCowLevitating = false;
         currentCow = null;
+        cow = null;
         target = null;
 
         levitationAudioSource.Pause();
