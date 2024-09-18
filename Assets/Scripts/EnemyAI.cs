@@ -53,55 +53,67 @@ public class EnemyAI : MonoBehaviour
     {
         if (target != null)
         {
-            Debug.DrawLine(target.position, myTransform.position, Color.red);
-
-            Vector3 targetPosition = new Vector3(target.position.x, target.position.y + hoverHeight, target.position.z);
-
-            Vector3 direction = (new Vector3(target.position.x, myTransform.position.y, target.position.z) - myTransform.position);
-
-            if (!isCowLevitating && direction.sqrMagnitude > 0.001f)
-            {
-                direction.Normalize();
-                Quaternion lookRotation = Quaternion.LookRotation(direction);
-                myTransform.rotation = Quaternion.Slerp(myTransform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
-            }
-
-            float distanceToTarget = Vector3.Distance(new Vector3(target.position.x, 0, target.position.z), new Vector3(myTransform.position.x, 0, myTransform.position.z));
-
-            if (!isCowLevitating)
-            {
-                if (distanceToTarget > maxDistance + 0.01f)
-                {
-                    myTransform.position = Vector3.MoveTowards(myTransform.position, targetPosition, moveSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    myTransform.position = targetPosition;
-                    CheckForCowBelow();
-                }
-            }
-
-            if (myTransform.position != lastPosition)
-            {
-                if (!moveAudioSource.isPlaying)
-                {
-                    moveAudioSource.UnPause();
-                }
-            }
-            else
-            {
-                if (moveAudioSource.isPlaying)
-                {
-                    moveAudioSource.Pause();
-                }
-            }
-
-            lastPosition = myTransform.position;
+            HandleMovement();
         }
         if (isCowLevitating && currentCow != null)
         {
             LevitateCow();
             RotateCowRandomly();
+        }
+    }
+
+    private void HandleMovement()
+    {
+        Vector3 targetPosition = new Vector3(target.position.x, target.position.y + hoverHeight, target.position.z);
+
+        float distanceToTarget = Vector3.Distance(new Vector3(target.position.x, 0, target.position.z), new Vector3(myTransform.position.x, 0, myTransform.position.z));
+
+        HandleRotation();
+
+        if (!isCowLevitating)
+        {
+            if (distanceToTarget > maxDistance + 0.01f)
+            {
+                myTransform.position = Vector3.MoveTowards(myTransform.position, targetPosition, moveSpeed * Time.deltaTime);
+            }
+            else
+            {
+                myTransform.position = targetPosition;
+                CheckForCowBelow();
+            }
+        }
+
+        HandleAudio();
+
+        lastPosition = myTransform.position;
+    }
+
+    private void HandleRotation()
+    {
+        Vector3 direction = (new Vector3(target.position.x, myTransform.position.y, target.position.z) - myTransform.position);
+        if (!isCowLevitating && direction.sqrMagnitude > 0.001f)
+        {
+            direction.Normalize();
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            myTransform.rotation = Quaternion.Slerp(myTransform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+        }
+    }
+
+    private void HandleAudio()
+    {
+        if (myTransform.position != lastPosition)
+        {
+            if (!moveAudioSource.isPlaying)
+            {
+                moveAudioSource.UnPause();
+            }
+        }
+        else
+        {
+            if (moveAudioSource.isPlaying)
+            {
+                moveAudioSource.Pause();
+            }
         }
     }
 
