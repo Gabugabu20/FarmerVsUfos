@@ -30,18 +30,29 @@ public class EnemyAI : MonoBehaviour
 
     private Transform myTransform;
     private Transform currentCow;
-    [SerializeField] private bool isCowLevitating = false;
+    private bool isCowLevitating = false;
     private Vector3 lastPosition;
     private Quaternion targetRotation;
+
+    [Header("Audio Sources")]
+    [SerializeField]
     private AudioSource moveAudioSource;
+    [SerializeField]
+    private AudioSource levitationAudioSource;
+
+    [SerializeField]
+    private AudioClip levitationSoundClip;
 
     void Awake()
     {
         myTransform = transform;
         lastPosition = myTransform.position;
-        moveAudioSource = GetComponent<AudioSource>();
+
         moveAudioSource.Play();
         moveAudioSource.Pause();
+
+        levitationAudioSource.Play();
+        levitationAudioSource.Pause();
     }
 
     void Start()
@@ -136,6 +147,8 @@ public class EnemyAI : MonoBehaviour
                 {
                     cowRigidbody.isKinematic = true;
                 }
+
+                levitationAudioSource.UnPause();
             }
         }
     }
@@ -177,6 +190,8 @@ public class EnemyAI : MonoBehaviour
         isCowLevitating = false;
         currentCow = null;
         target = null;
+
+        levitationAudioSource.Pause();
 
         FindNextCow();
     }
