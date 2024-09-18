@@ -204,26 +204,6 @@ public class EnemyAI : MonoBehaviour
         FindNextCow();
     }
 
-    private IEnumerator DropCow()
-    {
-        isCowLevitating = false;
-        cow.StopMooSound();
-
-        yield return new WaitForSeconds(1f);
-
-        Rigidbody cowRigidbody = currentCow.GetComponent<Rigidbody>();
-        if (cowRigidbody != null)
-        {
-            cowRigidbody.isKinematic = false;
-        }
-
-        currentCow = null;
-        cow = null;
-        target = null;
-
-        FindNextCow();
-    }
-
     private void FindNextCow()
     {
         GameObject[] cows = GameObject.FindGameObjectsWithTag("Cow");
@@ -237,6 +217,33 @@ public class EnemyAI : MonoBehaviour
         else
         {
             target = null;
+        }
+    }
+
+    public void DropCow()
+    {
+        if (isCowLevitating)
+        {
+            isCowLevitating = false;
+
+            if (cow != null)
+            {
+                cow.StopMooSound();
+            }
+
+            if (currentCow != null)
+            {
+                Rigidbody cowRigidbody = currentCow.GetComponent<Rigidbody>();
+                if (cowRigidbody != null)
+                {
+                    cowRigidbody.isKinematic = false;
+                    cowRigidbody.useGravity = true;
+                }
+            }
+
+            currentCow = null;
+            cow = null;
+            levitationAudioSource.Pause();
         }
     }
 }

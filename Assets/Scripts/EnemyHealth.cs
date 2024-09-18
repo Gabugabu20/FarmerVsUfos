@@ -10,10 +10,14 @@ public class EnemyHealth : MonoBehaviour
 
     [SerializeField] private Slider healthBar;
 
+    private EnemyAI enemyAI;
+
     private void Start()
     {
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthBar();
+
+        enemyAI = GetComponent<EnemyAI>();
     }
 
     private void Update()
@@ -26,6 +30,23 @@ public class EnemyHealth : MonoBehaviour
         currentHealth += adj;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthBar();
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        if (enemyAI != null)
+        {
+            enemyAI.DropCow();
+        }
+
+        // TODO: VFX
+
+        Destroy(gameObject);
     }
 
     private void UpdateHealthBar()
