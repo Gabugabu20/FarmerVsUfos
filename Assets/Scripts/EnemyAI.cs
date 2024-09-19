@@ -69,7 +69,7 @@ public class EnemyAI : MonoBehaviour
             LevitateCow();
             RotateCowRandomly();
         }
-        if(target == null)
+        if (target == null)
         {
             FindNextCow();
         }
@@ -177,7 +177,7 @@ public class EnemyAI : MonoBehaviour
 
     private void RotateCowRandomly()
     {
-        if(currentCow == null)
+        if (currentCow == null)
         {
             return;
         }
@@ -240,6 +240,12 @@ public class EnemyAI : MonoBehaviour
         if (cows.Count > 0)
         {
             Cow selectedCow = null;
+
+            foreach (Cow cow in cows)
+            {
+                Debug.Log($"Cow {cow.name} IsBeingTargeted: {cow.IsBeingTargeted}");
+            }
+
             do
             {
                 int randomIndex = Random.Range(0, cows.Count);
@@ -259,46 +265,65 @@ public class EnemyAI : MonoBehaviour
             if (selectedCow != null)
             {
                 target = selectedCow.transform;
+                cow = selectedCow;
                 Debug.Log("New Target Cow: " + target.name);
             }
             else
             {
                 Debug.Log("No untargeted cows available.");
                 target = null;
+                cow = null;
             }
         }
         else
         {
             Debug.Log("No cows available.");
             target = null;
+            cow = null;
         }
     }
 
     public void DropCow()
     {
         Debug.Log("Dropping Cow");
-        if (isCowLevitating)
+
+        if (cow == null)
         {
-            isCowLevitating = false;
-
-            if (cow != null)
+            Debug.LogWarning("Cow is null in DropCow(), attempting to retrieve from target.");
+            if (target != null)
             {
-                cow.IsBeingTargeted = false;
-                cow.StopMooSound();
+                cow = target.GetComponent<Cow>();
             }
+        }
 
-            if (currentCow != null)
+        if (cow != null)
+        {
+            Debug.Log($"Resetting IsBeingTargeted for cow: {cow.name}");
+            cow.IsBeingTargeted = false;
+            cow.StopMooSound();
+        }
+        else
+        {
+            Debug.LogError("unable to reset IsBeingTargeted because cow is still null");
+        }
+
+        if (currentCow != null && isCowLevitating)
+        {
+            Rigidbody cowRigidbody = currentCow.GetComponent<Rigidbody>();
+            if (cowRigidbody != null)
             {
-                Rigidbody cowRigidbody = currentCow.GetComponent<Rigidbody>();
-                if (cowRigidbody != null)
-                {
-                    cowRigidbody.isKinematic = false;
-                    cowRigidbody.useGravity = true;
-                }
+                cowRigidbody.isKinematic = false;
+                cowRigidbody.useGravity = true;
             }
+        }
 
-            currentCow = null;
-            cow = null;
+        isCowLevitating = false;
+        currentCow = null;
+        cow = null;
+        target = null;
+
+        if (levitationAudioSource != null)
+        {
             levitationAudioSource.Pause();
         }
     }

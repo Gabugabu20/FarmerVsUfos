@@ -42,6 +42,7 @@ public class EnemyHealth : MonoBehaviour
 
     private void Die()
     {
+        Debug.Log("Enemy died");
         if (enemyAI != null)
         {
             enemyAI.DropCow();
