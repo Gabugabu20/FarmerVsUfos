@@ -32,7 +32,9 @@ public class CowManager : MonoBehaviour
     {
         if (cows.Contains(cow))
         {
+            Debug.Log("CowManager: Unregistering cow");
             cows.Remove(cow);
+            Debug.Log("CowManager: Total Cows: " + cows.Count);
         }
     }
 

@@ -30,7 +30,9 @@ public class UFOSpawner : MonoBehaviour
     {
         while (true)
         {
-            if (currentUFOCount < maxUFOs)
+            List<Cow> cows = CowManager.Instance.GetCows();
+            Debug.Log("Spaner, Cows: " + cows.Count);
+            if (currentUFOCount < maxUFOs && currentUFOCount < cows.Count)
             {
                 SpawnUFO();
             }

@@ -196,6 +196,7 @@ public class EnemyAI : MonoBehaviour
 
     private void AbsorbCow()
     {
+        Debug.Log("Absorbing Cow: " + currentCow.name);
         //TODO Particles
 
         if (cow != null)
@@ -233,8 +234,8 @@ public class EnemyAI : MonoBehaviour
 
     private void FindNextCow()
     {
-        List<Cow> cows = CowManager.Instance.GetCows();
-        Debug.Log("Total Cows: " + cows.Count);
+        List<Cow> cows = new List<Cow>(CowManager.Instance.GetCows());
+        Debug.Log("EnemyAI: Total Cows: " + cows.Count);
 
         if (cows.Count > 0)
         {
@@ -246,6 +247,7 @@ public class EnemyAI : MonoBehaviour
 
                 if (!randomCow.IsBeingTargeted)
                 {
+                    Debug.Log("EnemyAI: Targeting Cow: " + randomCow.name);
                     selectedCow = randomCow;
                     selectedCow.IsBeingTargeted = true;
                     break;
@@ -274,6 +276,7 @@ public class EnemyAI : MonoBehaviour
 
     public void DropCow()
     {
+        Debug.Log("Dropping Cow");
         if (isCowLevitating)
         {
             isCowLevitating = false;
