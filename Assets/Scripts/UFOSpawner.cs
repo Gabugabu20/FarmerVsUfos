@@ -65,9 +65,13 @@ public class UFOSpawner : MonoBehaviour
         float randomX = Random.Range(0, terrainSize.x);
         float randomZ = Random.Range(0, terrainSize.z);
 
-        float terrainHeight = terrain.SampleHeight(new Vector3(randomX, 0, randomZ));
+        float terrainHeight = terrain.SampleHeight(new Vector3(randomX + terrain.transform.position.x, 0, randomZ + terrain.transform.position.z));
 
-        Vector3 spawnPosition = new Vector3(randomX + terrain.transform.position.x, terrainHeight + spawnHeightAboveTerrain, randomZ + terrain.transform.position.z);
+        Vector3 spawnPosition = new Vector3(
+            randomX + terrain.transform.position.x,
+            terrainHeight + spawnHeightAboveTerrain,
+            randomZ + terrain.transform.position.z
+        );
 
         return spawnPosition;
     }

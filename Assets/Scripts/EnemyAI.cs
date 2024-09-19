@@ -77,25 +77,33 @@ public class EnemyAI : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector3 targetPosition = new Vector3(target.position.x, target.position.y + hoverHeight, target.position.z);
+        float terrainHeightAtCurrentPosition = Terrain.activeTerrain.SampleHeight(myTransform.position);
+        float desiredY = terrainHeightAtCurrentPosition + hoverHeight;
 
-        float distanceToTarget = Vector3.Distance(new Vector3(target.position.x, 0, target.position.z), new Vector3(myTransform.position.x, 0, myTransform.position.z));
-
-        HandleRotation();
-
-        if (!isCowLevitating)
+        if (isCowLevitating)
         {
-            if (distanceToTarget > maxDistance + 0.01f)
-            {
-                myTransform.position = Vector3.MoveTowards(myTransform.position, targetPosition, moveSpeed * Time.deltaTime);
-            }
-            else
-            {
-                myTransform.position = targetPosition;
-                CheckForCowBelow();
-            }
+            myTransform.position = new Vector3(myTransform.position.x, desiredY, myTransform.position.z);
+            return;
         }
 
+        Vector3 direction = (new Vector3(target.position.x, 0, target.position.z) - new Vector3(myTransform.position.x, 0, myTransform.position.z)).normalized;
+        float distanceToTarget = Vector3.Distance(new Vector3(target.position.x, 0, target.position.z), new Vector3(myTransform.position.x, 0, myTransform.position.z));
+
+        if (distanceToTarget > maxDistance + 0.01f)
+        {
+            Vector3 horizontalMove = direction * moveSpeed * Time.deltaTime;
+            myTransform.position += new Vector3(horizontalMove.x, 0, horizontalMove.z);
+
+            float smoothedY = Mathf.Lerp(myTransform.position.y, desiredY, Time.deltaTime * moveSpeed);
+            myTransform.position = new Vector3(myTransform.position.x, smoothedY, myTransform.position.z);
+        }
+        else
+        {
+            myTransform.position = new Vector3(myTransform.position.x, desiredY, myTransform.position.z);
+            CheckForCowBelow();
+        }
+
+        HandleRotation();
         HandleMoveAudio();
 
         lastPosition = myTransform.position;
@@ -164,6 +172,10 @@ public class EnemyAI : MonoBehaviour
 
     private void LevitateCow()
     {
+        float terrainHeightAtCurrentPosition = Terrain.activeTerrain.SampleHeight(myTransform.position);
+        float desiredY = terrainHeightAtCurrentPosition + hoverHeight;
+        myTransform.position = new Vector3(myTransform.position.x, desiredY, myTransform.position.z);
+
         Vector3 cowTargetPosition = myTransform.position - new Vector3(0, cowStopDistance, 0);
 
         currentCow.position = Vector3.MoveTowards(currentCow.position, cowTargetPosition, levitationSpeed * Time.deltaTime);
