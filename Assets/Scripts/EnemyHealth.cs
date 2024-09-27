@@ -9,8 +9,6 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int currentHealth = 100;
 
-    [SerializeField] private Slider healthBar;
-
     [SerializeField] private Renderer ufoRenderer;
     private Material redOverlayMaterial;
 
@@ -24,7 +22,6 @@ public class EnemyHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        UpdateHealthBar();
 
         if (ufoRenderer != null && ufoRenderer.materials.Length > 1)
         {
@@ -36,16 +33,10 @@ public class EnemyHealth : MonoBehaviour
         enemyAI = GetComponent<EnemyAI>();
     }
 
-    private void Update()
-    {
-        UpdateHealthBar();
-    }
-
     public void AdjustCurrentHealth(int adj)
     {
         currentHealth += adj;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        UpdateHealthBar();
         UpdateUFOColor();
 
         if (currentHealth <= 0)
@@ -73,14 +64,6 @@ public class EnemyHealth : MonoBehaviour
         }
 
         Destroy(gameObject);
-    }
-
-    private void UpdateHealthBar()
-    {
-        if (healthBar != null)
-        {
-            healthBar.value = (float)currentHealth / maxHealth;
-        }
     }
 
     private void UpdateUFOColor()

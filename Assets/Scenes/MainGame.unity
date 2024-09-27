@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c12e51aca8466ff46b0217bcef44e97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ufo: {fileID: 8751675817878632096, guid: 37a7e87103902c34e9da82519d730477, type: 3}
+  ufo: {fileID: 3651178416987150861, guid: 6e22cb1c50c0385498dfc4fa2ff5298b, type: 3}
   spawnInterval: 10
   maxUFOs: 10
   terrain: {fileID: 1497410037}
