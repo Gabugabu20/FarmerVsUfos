@@ -16,6 +16,9 @@ public class EnemyHealth : MonoBehaviour
 
     private EnemyAI enemyAI;
 
+    [Header("Explosion Effect")]
+    [SerializeField] private GameObject explosionPrefab;
+
     public event Action OnDestroyed;
 
     private void Start()
@@ -64,7 +67,10 @@ public class EnemyHealth : MonoBehaviour
             OnDestroyed.Invoke();
         }
 
-        // TODO: VFX
+        if (explosionPrefab != null)
+        {
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        }
 
         Destroy(gameObject);
     }
