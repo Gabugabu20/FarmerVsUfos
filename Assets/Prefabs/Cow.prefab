@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7056459231328581675}
   - component: {fileID: 7896770140823455078}
   m_Layer: 0
-  m_Name: CowBlW
+  m_Name: Cow
   m_TagString: Cow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,7 +164,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1287295899898638}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1d61c5c3656a62249bd53f95bbb80df0, type: 3}
