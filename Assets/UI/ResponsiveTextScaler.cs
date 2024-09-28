@@ -30,30 +30,32 @@ public class ResponsiveTextScaler : MonoBehaviour
         float screenWidth = Screen.width;
 
         float scaleFactor = screenWidth / 1920f;
-
-        if (descriptionText != null)
-        {
-            descriptionText.style.fontSize = Mathf.RoundToInt(30 * scaleFactor);
-        }
+        int textSize = Mathf.RoundToInt(30 * scaleFactor);
+        int titleSize = Mathf.RoundToInt(40 * scaleFactor);
 
         if (titleText != null)
         {
-            titleText.style.fontSize = Mathf.RoundToInt(40 * scaleFactor);
+            titleText.style.fontSize = titleSize;
+        }
+
+        if (descriptionText != null)
+        {
+            descriptionText.style.fontSize = textSize;
         }
 
         if (startButton != null)
         {
-            startButton.style.fontSize = Mathf.RoundToInt(30 * scaleFactor);
+            startButton.style.fontSize = textSize;
         }
 
         if (settingsButton != null)
         {
-            settingsButton.style.fontSize = Mathf.RoundToInt(30 * scaleFactor);
+            settingsButton.style.fontSize = textSize;
         }
 
         if (quitButton != null)
         {
-            quitButton.style.fontSize = Mathf.RoundToInt(30 * scaleFactor);
+            quitButton.style.fontSize = textSize;
         }
     }
 }
