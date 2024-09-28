@@ -1,0 +1,14 @@
+.unity-button {
+    font-size: 20px;
+	background-color: rgb(51, 53, 195);
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: black;
+    color: white;
+    font-size: 20px;
+    -unity-font-style: bold;
+}
+
+.unity-button:hover {
+    background-color: rgb(30, 30, 138);
+}

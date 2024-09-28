@@ -15,6 +15,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public bool smooth;
         public float smoothTime = 5f;
         public bool lockCursor = true;
+        public bool isGameRunning = true;
 
 
         private Quaternion m_CharacterTargetRot;
@@ -67,9 +68,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         public void UpdateCursorLock()
         {
-            //if the user set "lockCursor" we check & properly lock the cursos
-            if (lockCursor)
-                InternalLockUpdate();
+            if (isGameRunning)
+            {
+                //if the user set "lockCursor" we check & properly lock the cursos
+                if (lockCursor)
+                    InternalLockUpdate();
+            }
         }
 
         private void InternalLockUpdate()

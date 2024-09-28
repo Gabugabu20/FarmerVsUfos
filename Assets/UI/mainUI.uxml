@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/stylesheet_main.uss?fileID=7433441132597879392&amp;guid=000a454d88430614884d348c5bf40dc4&amp;type=3#stylesheet_main" />
+    <ui:VisualElement name="main-container" style="flex-grow: 1; align-items: flex-start;">
+        <ui:VisualElement name="top-container" style="flex-grow: 1; position: absolute;">
+            <ui:VisualElement name="cow-container" style="flex-grow: 1; white-space: normal; flex-direction: row;">
+                <ui:Label tabindex="-1" text="Cows Remaining:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="cow-title" />
+                <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="cow-text" />
+            </ui:VisualElement>
+            <ui:VisualElement name="timer-container" style="flex-grow: 1; flex-direction: row;">
+                <ui:Label tabindex="-1" text="Time:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="timer-title" />
+                <ui:Label tabindex="-1" text="00:00:00" parse-escape-sequences="true" display-tooltip-when-elided="true" name="timer-text" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

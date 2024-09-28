@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/stylesheet_end.uss?fileID=7433441132597879392&amp;guid=5bee927944cd8cd4092bab2b784ded6b&amp;type=3#stylesheet_end" />
+    <ui:VisualElement name="endgame-container" style="flex-grow: 1; align-self: auto; flex-wrap: nowrap; justify-content: space-around;">
+        <ui:VisualElement name="result-container" style="flex-grow: 1; padding-top: 0; padding-bottom: 0; color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 20px; -unity-background-image-tint-color: rgb(0, 0, 0); background-color: rgba(51, 53, 195, 0.51); -unity-text-align: middle-center; padding-right: 0; padding-left: 0; position: relative; top: 20%; justify-content: center;">
+            <ui:Label tabindex="-1" text="TODO" parse-escape-sequences="true" display-tooltip-when-elided="true" name="result-text" style="justify-content: flex-end;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="endactions-container" style="flex-grow: 1; padding-top: 0; flex-direction: column; align-items: center; justify-content: flex-start; align-self: auto; width: auto; height: auto; padding-right: 0; padding-bottom: 0; padding-left: 0; bottom: auto; top: 20%; margin-top: 10%;">
+            <ui:Button text="Return to Title" parse-escape-sequences="true" display-tooltip-when-elided="true" name="returntitle-button" />
+            <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="false" name="endquit-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

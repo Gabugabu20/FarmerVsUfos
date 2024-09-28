@@ -1,0 +1,9 @@
+.unity-label {
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+    padding-left: 5%;
+    font-size: 20px;
+}

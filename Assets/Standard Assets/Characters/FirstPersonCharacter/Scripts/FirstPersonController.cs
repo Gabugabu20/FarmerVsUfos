@@ -92,6 +92,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_NextStep = m_StepCycle + .5f;
         }
 
+        public void DisableInput()
+        {
+            m_MouseLook.SetCursorLock(false);
+            m_MouseLook.isGameRunning = false;
+            enabled = false;
+        }
+
 
         private void FixedUpdate()
         {
