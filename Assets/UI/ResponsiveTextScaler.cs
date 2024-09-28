@@ -11,7 +11,7 @@ public class ResponsiveTextScaler : MonoBehaviour
     private Button startButton;
     private Button settingsButton;
     private Button quitButton;
-
+        
     void Start()
     {
         var root = uiDocument.rootVisualElement;
