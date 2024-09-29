@@ -11,4 +11,14 @@ public class GameBGMusic : MonoBehaviour
     {
         audioSource.Play();
     }
+
+    public void PauseMusic()
+    {
+        audioSource.Pause();
+    }
+
+    public void ResumeMusic()
+    {
+        audioSource.UnPause();
+    }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UnityStandardAssets.Characters.FirstPerson;
@@ -6,20 +7,29 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private UIDocument mainUI;
-    [SerializeField] private UIDocument endGameUI;
+    [SerializeField] private UIDocument endGameUI; 
+    [SerializeField] private UIDocument pauseUI;
+    [SerializeField] private GameBGMusic backgroundMusic;
+
     [SerializeField] private float levelDuration = 300f;
+
+    private FirstPersonController fpsController;
 
     private Label cowTextLabel;
     private Label timerTextLabel;
     private Label resultTextLabel;
     private Button returnButton;
     private Button quitButton;
+    private Button backButton;
+    private Button pauseReturnButton;
 
     private float remainingTime;
     private bool isGameRunning = false;
+    private bool isGamePaused = false;
 
     void Start()
     {
+        fpsController = FindObjectOfType<FirstPersonController>();
         var root = mainUI.rootVisualElement;
 
         cowTextLabel = root.Q<Label>("cow-text");
@@ -30,11 +40,23 @@ public class GameManager : MonoBehaviour
 
         UpdateUI();
 
+        pauseUI.rootVisualElement.style.display = DisplayStyle.None;
         endGameUI.rootVisualElement.style.display = DisplayStyle.None;
 
+        SetupPauseUI();
         SetupEndGameUI();
     }
 
+    private void SetupPauseUI()
+    {
+        var pauseRoot = pauseUI.rootVisualElement;
+
+        backButton = pauseRoot.Q<Button>("back-button");
+        pauseReturnButton = pauseRoot.Q<Button>("return-button");
+
+        backButton.clicked += ResumeGame;
+        pauseReturnButton.clicked += ReturnToTitle;
+    }
 
 
     private void SetupEndGameUI()
@@ -64,6 +86,53 @@ public class GameManager : MonoBehaviour
                 EndLevel();
             }
         }
+
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            if (isGamePaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
+        }
+    }
+    public void PauseGame()
+    {
+        isGamePaused = true;
+        isGameRunning = false;
+
+        Time.timeScale = 0f;
+
+        if (fpsController != null)
+        {
+            fpsController.DisableInput();
+        }
+
+        backgroundMusic.PauseMusic();
+
+        mainUI.rootVisualElement.style.display = DisplayStyle.None;
+        pauseUI.rootVisualElement.style.display = DisplayStyle.Flex;
+    }
+
+    public void ResumeGame()
+    {
+        isGamePaused = false;
+        isGameRunning = true;
+
+        Time.timeScale = 1f;
+
+        if (fpsController != null)
+        {
+            fpsController.EnableInput();
+        }
+
+        backgroundMusic.ResumeMusic();
+
+        mainUI.rootVisualElement.style.display = DisplayStyle.Flex;
+        pauseUI.rootVisualElement.style.display = DisplayStyle.None;
     }
 
     private void UpdateUI()
@@ -102,7 +171,6 @@ public class GameManager : MonoBehaviour
 
         resultTextLabel.text = resultText;
 
-        FirstPersonController fpsController = FindObjectOfType<FirstPersonController>();
         if (fpsController != null)
         {
             fpsController.DisableInput();

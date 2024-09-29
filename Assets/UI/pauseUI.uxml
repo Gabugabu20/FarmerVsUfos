@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/stylesheet_end.uss?fileID=7433441132597879392&amp;guid=5bee927944cd8cd4092bab2b784ded6b&amp;type=3#stylesheet_end" />
+    <ui:VisualElement name="pause-container" style="flex-grow: 1; background-color: rgba(0, 8, 173, 0.6); -unity-text-align: middle-left; justify-content: center; align-self: auto;">
+        <ui:Label tabindex="-1" text="PAUSE" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 30px; -unity-text-align: middle-center; margin-top: 5%; color: rgb(255, 255, 255);" />
+        <ui:VisualElement name="pause-actions-container" style="flex-grow: 1; justify-content: center;">
+            <ui:Button text="Back" parse-escape-sequences="true" display-tooltip-when-elided="true" name="back-button" />
+            <ui:Button text="Return to Title" parse-escape-sequences="true" display-tooltip-when-elided="true" name="return-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

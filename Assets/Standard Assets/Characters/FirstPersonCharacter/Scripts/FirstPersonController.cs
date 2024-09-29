@@ -99,6 +99,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
             enabled = false;
         }
 
+        public void EnableInput()
+        {
+            m_MouseLook.SetCursorLock(true);
+            m_MouseLook.isGameRunning = true;
+            enabled = true;
+        }
+
 
         private void FixedUpdate()
         {
