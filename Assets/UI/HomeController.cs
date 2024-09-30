@@ -5,8 +5,8 @@ using UnityEngine.UIElements;
 public class MainMenuController : MonoBehaviour
 {
     private VisualElement root;
-    private Button startButton;
-    private Button settingsButton;
+    private Button level1Button;
+    private Button level2Button;
     private Button quitButton;
 
     private void OnEnable()
@@ -14,23 +14,23 @@ public class MainMenuController : MonoBehaviour
         UIDocument uiDocument = GetComponent<UIDocument>();
         root = uiDocument.rootVisualElement;
 
-        startButton = root.Q<Button>("start-button");
-        settingsButton = root.Q<Button>("settings-button");
+        level1Button = root.Q<Button>("level1-button");
+        level2Button = root.Q<Button>("level2-button");
         quitButton = root.Q<Button>("quit-button");
 
-        if (startButton != null) startButton.clicked += OnStartButtonClick;
-        if (settingsButton != null) settingsButton.clicked += OnSettingsButtonClick;
+        if (level1Button != null) level1Button.clicked += OnLevel1ButtonClick;
+        if (level2Button != null) level2Button.clicked += OnLevel2ButtonClick;
         if (quitButton != null) quitButton.clicked += OnQuitButtonClick;
     }
 
-    private void OnStartButtonClick()
+    private void OnLevel1ButtonClick()
     {
-        SceneManager.LoadScene("MainGame");
+        SceneManager.LoadScene("Level_1");
     }
 
-    private void OnSettingsButtonClick()
+    private void OnLevel2ButtonClick()
     {
-        Debug.Log("Settings");
+        SceneManager.LoadScene("Level_2");
     }
 
     private void OnQuitButtonClick()
