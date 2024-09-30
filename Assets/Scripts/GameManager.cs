@@ -196,6 +196,20 @@ public class GameManager : MonoBehaviour
     private void EndLevel()
     {
         isGameRunning = false;
+        Time.timeScale = 0f;
+
+        if (fpsController != null)
+        {
+            fpsController.DisableInput();
+        }
+
+        if (weapon != null)
+        {
+            weapon.SetCanShoot(false);
+        }
+
+        backgroundMusic.PauseMusic();
+        PauseAllAudio();
 
         mainUI.rootVisualElement.style.display = DisplayStyle.None;
         endGameUI.rootVisualElement.style.display = DisplayStyle.Flex;
