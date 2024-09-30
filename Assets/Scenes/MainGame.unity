@@ -368,6 +368,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7441186199632683023, guid: 1b92841051e99f34c9ad673a8fccfcc8, type: 3}
   m_PrefabInstance: {fileID: 7763184415190537518}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &400009701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400009703}
+  - component: {fileID: 400009702}
+  m_Layer: 0
+  m_Name: PauseUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &400009702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400009701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 8a4c6e742cb4b514f960554896ce0e61, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: b1ba354c18251be4482ed123fd2eb9c3, type: 3}
+  m_SortingOrder: 0
+--- !u!4 &400009703
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400009701}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 26.373716, y: 19.714209, z: 31.617535}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &402270900 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4054502789990554, guid: 9ec060093457ad84ca2733cb15c2c41e, type: 3}
@@ -1357,7 +1405,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainUI: {fileID: 1646759077}
   endGameUI: {fileID: 229759569}
-  levelDuration: 10
+  pauseUI: {fileID: 400009702}
+  backgroundMusic: {fileID: 992916598}
+  levelDuration: 120
 --- !u!4 &1248788493
 Transform:
   m_ObjectHideFlags: 0
@@ -2375,3 +2425,4 @@ SceneRoots:
   - {fileID: 1646759078}
   - {fileID: 1248788493}
   - {fileID: 229759570}
+  - {fileID: 400009703}

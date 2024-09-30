@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float levelDuration = 300f;
 
     private FirstPersonController fpsController;
+    private Weapon weapon;
 
     private Label cowTextLabel;
     private Label timerTextLabel;
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         fpsController = FindObjectOfType<FirstPersonController>();
+        weapon = FindObjectOfType<Weapon>();
+
         var root = mainUI.rootVisualElement;
 
         cowTextLabel = root.Q<Label>("cow-text");
@@ -111,6 +114,11 @@ public class GameManager : MonoBehaviour
             fpsController.DisableInput();
         }
 
+        if(weapon != null)
+        {
+            weapon.SetCanShoot(false);
+        }
+
         backgroundMusic.PauseMusic();
 
         mainUI.rootVisualElement.style.display = DisplayStyle.None;
@@ -127,6 +135,11 @@ public class GameManager : MonoBehaviour
         if (fpsController != null)
         {
             fpsController.EnableInput();
+        }
+
+        if(weapon != null)
+        {
+            weapon.SetCanShoot(true);
         }
 
         backgroundMusic.ResumeMusic();

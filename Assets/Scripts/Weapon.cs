@@ -13,6 +13,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float shootingDelay = 0.3f;
     [SerializeField] private bool automaticFire = false;
     [SerializeField] private float spreadIntensity = 0.05f;
+    private bool canShoot = true;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawn;
@@ -25,6 +26,11 @@ public class Weapon : MonoBehaviour
     private Coroutine _continuousFireCoroutine;
     private float _buttonHoldTime = 0.0f;
     private float _holdThreshold = 0.3f;
+
+    public void SetCanShoot(bool value)
+    {
+        canShoot = value;
+    }
 
     private void Awake()
     {
@@ -58,6 +64,8 @@ public class Weapon : MonoBehaviour
     }
     private void StartShooting(InputAction.CallbackContext context)
     {
+        if (!canShoot) return;
+
         _buttonHoldTime = 0.0f;
         isShooting = true;
 
