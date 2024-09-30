@@ -237,6 +237,7 @@ public class GameManager : MonoBehaviour
 
     private void ReturnToTitle()
     {
+        ResumeGame();
         SceneManager.LoadScene("HomeMenu");
     }
 
